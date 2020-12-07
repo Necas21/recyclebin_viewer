@@ -18,7 +18,7 @@ def get_recyclebin():
 # Converts a users SID to their username
 def sid_to_user(sid):
     try:
-        key = OpenKey(HKEY_LOCAL_MACHINE, f"SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\{sid}")
+        key = OpenKey(HKEY_LOCAL_MACHINE, f"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\{sid}")
         value, type = QueryValueEx(key, "ProfileImagePath")
         user = value.split("\\")[-1]
         return user
@@ -78,7 +78,7 @@ def get_recycled(recycle_dir):
         print(f"[*] Listing deleted files for user: {user}")
         for file in deleted_files:
             print(f"[+] Found file: {file}")
-            if re.search("^\$I", file):
+            if re.search("^\\$I", file):
                 f = open(f"{path}\\{file}", "rb")
                 file_contents = binascii.hexlify(f.read())
                 file_contents = file_contents.decode("ascii")
